@@ -1,0 +1,249 @@
+
+<style>
+  .wr { font-family: 'DM Sans', sans-serif; padding: 1rem 0; color: var(--color-text-primary); }
+  .masthead { border: 2px solid var(--color-border-primary); border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .masthead-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .paper-name { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .paper-name span { font-style: italic; font-weight: 400; color: var(--color-text-secondary); font-size: 16px; }
+  .paper-meta { font-size: 11px; color: var(--color-text-secondary); text-align: right; line-height: 1.8; }
+  .paper-tagline { font-size: 12px; color: var(--color-text-secondary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 8px; font-style: italic; }
+
+  .confessional { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); padding: 14px 16px; margin-bottom: 1.25rem; display: flex; gap: 12px; align-items: flex-start; }
+  .conf-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); }
+  .conf-body { flex: 1; }
+  .conf-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .conf-quote { font-size: 13px; font-style: italic; line-height: 1.55; color: var(--color-text-primary); }
+  .conf-tag { display: inline-block; margin-top: 6px; font-size: 10px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: 20px; padding: 2px 8px; color: var(--color-text-secondary); }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tab { padding: 7px 14px; font-size: 12px; font-weight: 500; border: 0.5px solid var(--color-border-secondary); border-radius: 20px; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all 0.15s; }
+  .tab.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+  .tab:hover:not(.active) { background: var(--color-background-secondary); }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .item { display: flex; gap: 10px; padding: 12px 0; border-bottom: 0.5px solid var(--color-border-tertiary); align-items: flex-start; }
+  .item:last-child { border-bottom: none; }
+  .item-num { font-size: 11px; font-weight: 700; color: var(--color-text-secondary); min-width: 20px; padding-top: 2px; }
+  .item-main { flex: 1; }
+  .item-title { font-size: 14px; font-weight: 500; line-height: 1.45; margin-bottom: 4px; }
+  .item-reaction { font-size: 12px; font-style: italic; color: var(--color-text-secondary); line-height: 1.5; }
+  .item-reaction .char { font-weight: 500; font-style: normal; color: var(--color-text-primary); }
+  .item-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-top: 5px; border: 0.5px solid; }
+  .badge-done { background: var(--color-background-success); color: var(--color-text-success); border-color: var(--color-border-success); }
+  .badge-bonus { background: var(--color-background-warning); color: var(--color-text-warning); border-color: var(--color-border-warning); }
+  .badge-wip { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); }
+
+  .divider-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-secondary); padding: 8px 0 4px; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 4px; }
+
+  .footer-bar { margin-top: 1.25rem; font-size: 11px; color: var(--color-text-secondary); text-align: center; border-top: 0.5px solid var(--color-border-tertiary); padding-top: 12px; line-height: 1.7; }
+</style>
+
+<div class="wr">
+
+  <div class="masthead">
+    <div class="masthead-top">
+      <div>
+        <div class="paper-name">The Scranton Solar Tribune <span>— L&D Edition</span></div>
+      </div>
+      <div class="paper-meta">
+        Week of June 2026 &nbsp;|&nbsp; Vol. 1, Issue "Still Alive"<br>
+        Reporter: Thais &nbsp;|&nbsp; Editor: also Thais<br>
+        Fact-checker: Nobody, we move fast
+      </div>
+    </div>
+    <div class="paper-tagline">"Dunder Mifflin's most trusted source of L&D updates, synergy, and unsolicited commentary from Michael Scott."</div>
+  </div>
+
+  <div class="confessional">
+    <div class="conf-avatar">🎙️</div>
+    <div class="conf-body">
+      <div class="conf-name">Michael Scott — Regional Manager, Feelings Dept.</div>
+      <div class="conf-quote">"I've always said: the best way to do business is to work hard, stay positive, and finish your modules before the video finishes downloading. I say that. I've said that many times."</div>
+      <span class="conf-tag">Confessional, Week 24</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('done')">✅ This week — done (somehow)</button>
+    <button class="tab" onclick="showTab('next')">📋 Next week — the plan</button>
+    <button class="tab" onclick="showTab('reactions')">🎭 Character reactions</button>
+  </div>
+
+  <div class="panel active" id="panel-done">
+    <div class="item">
+      <div class="item-num">01</div>
+      <div class="item-main">
+        <div class="item-title">Module 1 (AH) fully completed — live videos and all of Luke's corrections applied.</div>
+        <div class="item-reaction"><span class="char">Jim:</span> <i>[looks directly at camera]</i> "She watched every video, adjusted the avatar's speech timing 3,178,319 times, and waited approximately 2 years for each file to download. But it's done."</div>
+        <span class="item-badge badge-done">✓ DELIVERED</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">02</div>
+      <div class="item-main">
+        <div class="item-title">Module 2 corrections started based on Luke's review.</div>
+        <div class="item-reaction"><span class="char">Dwight:</span> "Progress has been initiated. The system is working as designed. I designed the system."</div>
+        <span class="item-badge badge-wip">IN PROGRESS</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">03</div>
+      <div class="item-main">
+        <div class="item-title">Jordan's team onboarding started — existing materials adapted, new drafts created for Jordan to fill out.</div>
+        <div class="item-reaction"><span class="char">Kevin:</span> "So she basically did her job AND set up Jordan's job? That's... a lot of job."</div>
+        <span class="item-badge badge-done">✓ DELIVERED</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">04</div>
+      <div class="item-main">
+        <div class="item-title">14 Knowledge Base articles created — all based on Module 1 (Luke's team) with corrections applied.</div>
+        <div class="item-reaction"><span class="char">Oscar:</span> "Fourteen. I counted. They're consistent, well-structured, and properly formatted. I wasn't going to say anything but here we are."</div>
+        <span class="item-badge badge-done">✓ 14 ARTICLES</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">05</div>
+      <div class="item-main">
+        <div class="item-title">Payroll process updated per Cheenes' feedback + gap document sent to Jacqui. Meeting scheduled for next week.</div>
+        <div class="item-reaction"><span class="char">Toby:</span> "This is exactly the kind of HR-adjacent documentation that I— <i>[Michael cuts him off]</i>"</div>
+        <span class="item-badge badge-wip">MEETING PENDING</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">06</div>
+      <div class="item-main">
+        <div class="item-title">Researched Xero + Zoho/Bright BR integration — documented why it's not possible + mapped alternative paths.</div>
+        <div class="item-reaction"><span class="char">Ryan:</span> "I actually had an idea about this once. It was different from her idea but equally valid. Anyway. Good work."</div>
+        <span class="item-badge badge-done">✓ DOCUMENTED</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">07</div>
+      <div class="item-main">
+        <div class="item-title">Dejo's email-sync-with-CRM material fully completed — article and video.</div>
+        <div class="item-reaction"><span class="char">Kevin:</span> "I watched the video twice. I understood some of it. The second time I understood slightly less."</div>
+        <span class="item-badge badge-done">✓ ARTICLE + VIDEO</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-next">
+    <div class="item">
+      <div class="item-num">01</div>
+      <div class="item-main">
+        <div class="item-title">Finish Module 2 (Luke's team) + push into Module 3 — subject to Luke's review pace.</div>
+        <div class="item-reaction"><span class="char">Dwight:</span> "Luke reviews. Thais executes. I would also review, if asked. I am not being asked."</div>
+        <span class="item-badge badge-wip">PRIORITY</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">02</div>
+      <div class="item-main">
+        <div class="item-title">Continue Jordan's team materials — Module 1 complete + part of Module 2 ready to become training content.</div>
+        <div class="item-reaction"><span class="char">Jim:</span> "Jordan will fill out the drafts. Or he will send a voice note saying he's about to fill out the drafts. The optimism remains."</div>
+        <span class="item-badge badge-wip">IN PROGRESS</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">03</div>
+      <div class="item-main">
+        <div class="item-title">Actually finish the payroll material and gap review. For real this time.</div>
+        <div class="item-reaction"><span class="char">Michael:</span> "Was it almost finished before? Yes. Is 'almost' the same as finished? Also yes. In my heart."</div>
+        <span class="item-badge badge-wip">FOR REAL THIS TIME</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">04</div>
+      <div class="item-main">
+        <div class="item-title">Once Module 2 is done — build the corresponding Knowledge Base articles.</div>
+        <div class="item-reaction"><span class="char">Oscar:</span> "It's a pipeline now. Module done → articles. I respect the system."</div>
+        <span class="item-badge badge-wip">QUEUED</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">05</div>
+      <div class="item-main">
+        <div class="item-title">Review with Dejo: Zoho Vault, commission process, payroll, email sync — close as much as possible while he's around.</div>
+        <div class="item-reaction"><span class="char">Jim:</span> <i>[looks at camera]</i> "While he's around. Key phrase. The window is open. We are capitalising."</div>
+        <span class="item-badge badge-wip">TIME-SENSITIVE</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">06</div>
+      <div class="item-main">
+        <div class="item-title">If time allows — start building the Knowledge Space for Jordan's team.</div>
+        <div class="item-reaction"><span class="char">Pam:</span> "It's on the list. It's been acknowledged. That counts."</div>
+        <span class="item-badge badge-bonus">BONUS ITEM</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-num">07</div>
+      <div class="item-main">
+        <div class="item-title">If time really allows — start Day 1 for Kaysie's team.</div>
+        <div class="item-reaction"><span class="char">Angela:</span> <i>[silent stare]</i> "I've been tracking the timeline. I haven't said anything yet."</div>
+        <span class="item-badge badge-bonus">STRETCH GOAL</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-reactions">
+    <div class="divider-label">The cast weighs in on this week</div>
+    <div class="confessional" style="margin-top: 12px; margin-bottom: 10px;">
+      <div class="conf-avatar">😐</div>
+      <div class="conf-body">
+        <div class="conf-name">Jim Halpert — Sales, Vibes</div>
+        <div class="conf-quote">"She built 14 articles in one week. Fourteen. I've been trying to finish one expense report since March."</div>
+        <span class="conf-tag">Confessional cam, Tuesday</span>
+      </div>
+    </div>
+    <div class="confessional" style="margin-bottom: 10px;">
+      <div class="conf-avatar">🦅</div>
+      <div class="conf-body">
+        <div class="conf-name">Dwight Schrute — Assistant (Regional Manager)</div>
+        <div class="conf-quote">"The avatar was adjusted 3,178,319 times. I would have done it in 2,000,000. Maximum. Efficiency is my brand."</div>
+        <span class="conf-tag">Unsolicited feedback, Wednesday</span>
+      </div>
+    </div>
+    <div class="confessional" style="margin-bottom: 10px;">
+      <div class="conf-avatar">🎨</div>
+      <div class="conf-body">
+        <div class="conf-name">Pam Beesly — Reception, Moral Support</div>
+        <div class="conf-quote">"I made her a card that says 'Module 1: complete.' She said she didn't need it. I think she needed it."</div>
+        <span class="conf-tag">Break room, Thursday</span>
+      </div>
+    </div>
+    <div class="confessional" style="margin-bottom: 10px;">
+      <div class="conf-avatar">📊</div>
+      <div class="conf-body">
+        <div class="conf-name">Oscar Martinez — Accounting, Accuracy Police</div>
+        <div class="conf-quote">"I reviewed the 14 articles. They were correct. I didn't expect to be impressed. I was slightly impressed. Don't tell anyone."</div>
+        <span class="conf-tag">Accounting pod, Friday</span>
+      </div>
+    </div>
+    <div class="confessional" style="margin-bottom: 0;">
+      <div class="conf-avatar">🌟</div>
+      <div class="conf-body">
+        <div class="conf-name">Michael Scott — World's Best Boss (self-certified)</div>
+        <div class="conf-quote">"This is what we do here at Dunder Solar. We work hard, we laugh, we cry — mostly during video downloads — and we DELIVER. That's what she said. That was appropriate. I planned that."</div>
+        <span class="conf-tag">End of week speech, nobody asked for</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    RESINC Solar & Batteries · L&D Division · "Would I rather be feared or loved? Easy — both. But mostly I want the modules finished." — M. Scott
+  </div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
