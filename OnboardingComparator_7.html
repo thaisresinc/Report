@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Onboarding Programme — Status Overview</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0A3542;--navy2:#071F28;
+  --sky:#00AEEF;--sky-lt:#EAF6FD;
+  --green:#0B7A4E;--green-lt:#E3F5EC;
+  --gold:#D4940A;--gold-lt:#FEF8E6;
+  --red:#B5251B;--red-lt:#FDECEB;
+  --purple:#6B4FBB;
+  --font:'DM Sans',system-ui,sans-serif;
+  --serif:'DM Serif Display',Georgia,serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:#F4F8FB;color:#1A2A32;overflow-x:hidden;}
+
+.page-header{background:var(--navy);padding:36px 32px 28px;border-bottom:3px solid var(--sky);}
+.ph-eyebrow{font-size:9px;font-weight:700;letter-spacing:.24em;color:var(--sky);margin-bottom:10px;}
+.ph-title{font-family:var(--serif);font-size:clamp(22px,3vw,34px);color:#fff;margin-bottom:6px;}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.5);max-width:560px;line-height:1.6;}
+
+.summary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:24px 32px;background:#fff;border-bottom:1px solid #E2EEF4;}
+@media(max-width:700px){.summary-row{grid-template-columns:1fr;}}
+.sum-card{border-radius:12px;padding:18px 20px;border:1.5px solid #E2EEF4;}
+.sum-card.jordan{border-color:rgba(0,174,239,.25);background:var(--sky-lt);}
+.sum-card.luke{border-color:rgba(11,122,78,.25);background:var(--green-lt);}
+.sum-card.kaysie{border-color:rgba(107,79,187,.2);background:#F0ECFC;}
+.sum-team{font-size:9px;font-weight:700;letter-spacing:.18em;margin-bottom:4px;}
+.sum-card.jordan .sum-team{color:var(--sky);}
+.sum-card.luke .sum-team{color:var(--green);}
+.sum-card.kaysie .sum-team{color:var(--purple);}
+.sum-name{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.sum-stats{display:flex;gap:14px;flex-wrap:wrap;}
+.sum-stat-n{font-family:var(--serif);font-size:22px;font-weight:700;}
+.sum-card.jordan .sum-stat-n{color:var(--sky);}
+.sum-card.luke .sum-stat-n{color:var(--green);}
+.sum-card.kaysie .sum-stat-n{color:var(--purple);}
+.sum-stat-l{font-size:9px;color:#5A6E78;letter-spacing:.1em;}
+.sum-bar{height:6px;background:#E2EEF4;border-radius:3px;overflow:hidden;margin-top:10px;}
+.sum-bar-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+.sum-card.jordan .sum-bar-fill{background:var(--sky);}
+.sum-card.luke .sum-bar-fill{background:var(--green);}
+.sum-card.kaysie .sum-bar-fill{background:var(--purple);}
+.sum-pct{font-size:10px;font-weight:700;margin-top:4px;}
+.sum-card.jordan .sum-pct{color:var(--sky);}
+.sum-card.luke .sum-pct{color:var(--green);}
+.sum-card.kaysie .sum-pct{color:var(--purple);}
+
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:16px 32px;background:#fff;border-bottom:1px solid #E2EEF4;align-items:center;}
+.filter-label{font-size:10px;font-weight:700;color:#5A6E78;letter-spacing:.1em;margin-right:4px;}
+.filter-btn{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #C8DDE8;background:#F4F8FB;color:#5A6E78;transition:all .18s;}
+.filter-btn.active{border-color:var(--navy);color:var(--navy);background:#E2EEF4;}
+.filter-btn.f-ready.active{border-color:var(--green);color:var(--green);background:var(--green-lt);}
+.filter-btn.f-build.active{border-color:var(--sky);color:var(--sky);background:var(--sky-lt);}
+.filter-btn.f-gap.active{border-color:var(--red);color:var(--red);background:var(--red-lt);}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px;padding:12px 32px;background:#fff;border-bottom:1px solid #E2EEF4;align-items:center;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#5A6E78;}
+
+.table-wrap{padding:20px 32px 40px;overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:700px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(10,53,66,.06),0 4px 12px rgba(10,53,66,.06);}
+thead th{background:var(--navy);color:#fff;padding:12px 14px;font-size:10px;font-weight:700;letter-spacing:.12em;text-align:left;white-space:nowrap;}
+thead th:first-child{width:220px;}
+thead th.th-jordan{background:#0D4A5E;}
+thead th.th-luke{background:#0A3D28;}
+thead th.th-kaysie{background:#3D2A70;}
+tbody tr{border-bottom:1px solid #E2EEF4;transition:background .15s;}
+tbody tr:hover{background:#F8FBFD;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr.hidden{display:none;}
+.tr-section td{background:#F0F5F8;font-size:9px;font-weight:700;letter-spacing:.2em;color:#5A6E78;padding:8px 14px;border-bottom:1px solid #C8DDE8 !important;}
+td{padding:10px 14px;font-size:12.5px;vertical-align:middle;}
+td:first-child{font-weight:600;color:var(--navy);font-size:12px;line-height:1.4;}
+.module-sub{font-size:11px;color:#5A6E78;font-weight:400;}
+
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:3px 10px;font-size:10.5px;font-weight:700;white-space:nowrap;}
+.chip-ready{background:var(--green-lt);color:var(--green);border:1px solid rgba(11,122,78,.2);}
+.chip-build{background:var(--sky-lt);color:var(--sky);border:1px solid rgba(0,174,239,.25);}
+.chip-gap{background:var(--red-lt);color:var(--red);border:1px solid rgba(181,37,27,.2);}
+.chip-na{background:#F4F8FB;color:#C8DDE8;border:1px solid #E2EEF4;font-weight:400;}
+.chip-review{background:#F0ECFC;color:#6B4FBB;border:1px solid rgba(107,79,187,.25);}
+.chip-adapted{background:#FEF3EB;color:#D4620A;border:1px solid rgba(212,98,10,.25);}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="ph-eyebrow">RESINC L&D · INTERNAL</div>
+  <h1 class="ph-title">Onboarding Programme — Status Overview</h1>
+  <p class="ph-sub">Live comparison across all three CS teams, based on actual Zoho Learn content as of today.</p>
+</div>
+
+<div class="summary-row">
+  <div class="sum-card jordan">
+    <div class="sum-team">APPOINTMENT SETTERS · TL: JORDAN</div>
+    <div class="sum-name">Jordan's Team</div>
+    <div class="sum-stats">
+      <div><div class="sum-stat-n">14</div><div class="sum-stat-l">READY</div></div>
+      <div><div class="sum-stat-n">8</div><div class="sum-stat-l">ADAPTED*</div></div>
+      <div><div class="sum-stat-n">17</div><div class="sum-stat-l">GAPS</div></div>
+    </div>
+    <div class="sum-bar"><div class="sum-bar-fill" style="width:36%"></div></div>
+    <div class="sum-pct">36% confirmed · *8 copied from Luke, unconfirmed</div>
+  </div>
+  <div class="sum-card luke">
+    <div class="sum-team">ALPHA HIPPO CONNECTORS · TL: LUKE</div>
+    <div class="sum-name">Luke's Team</div>
+    <div class="sum-stats">
+      <div><div class="sum-stat-n">19</div><div class="sum-stat-l">READY</div></div>
+      <div><div class="sum-stat-n">13</div><div class="sum-stat-l">NEEDS REVIEW</div></div>
+      <div><div class="sum-stat-n">5</div><div class="sum-stat-l">GAPS</div></div>
+    </div>
+    <div class="sum-bar"><div class="sum-bar-fill" style="width:86%"></div></div>
+    <div class="sum-pct">86% built · 13 awaiting review</div>
+  </div>
+  <div class="sum-card kaysie">
+    <div class="sum-team">CONFIRMATIONS · TL: KAYSIE</div>
+    <div class="sum-name">Kaysie's Team</div>
+    <div class="sum-stats">
+      <div><div class="sum-stat-n">22</div><div class="sum-stat-l">READY</div></div>
+      <div><div class="sum-stat-n">0</div><div class="sum-stat-l">NEEDS EDIT</div></div>
+      <div><div class="sum-stat-n">21</div><div class="sum-stat-l">GAPS</div></div>
+    </div>
+    <div class="sum-bar"><div class="sum-bar-fill" style="width:51%"></div></div>
+    <div class="sum-pct">51% complete</div>
+  </div>
+</div>
+
+<div class="legend">
+  <span style="font-size:10px;font-weight:700;color:#5A6E78;letter-spacing:.1em;margin-right:4px;">LEGEND</span>
+  <div class="leg-item"><span class="chip chip-ready">✓ Ready</span> Live & complete</div>
+  <div class="leg-item"><span class="chip chip-build">↗ Needs edit</span> Exists but needs update</div>
+  <div class="leg-item"><span class="chip chip-gap">✗ Gap</span> Not started / no content</div>
+  <div class="leg-item"><span class="chip chip-na">—</span> Not applicable</div>
+  <div class="leg-item"><span class="chip chip-review">🔍 Needs Review</span> Built — awaiting TL sign-off</div>
+  <div class="leg-item"><span class="chip chip-adapted">📋 Adapted</span> Copied from Luke — not confirmed for this team</div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">FILTER:</span>
+  <div class="filter-btn active" onclick="filterRows('all',this)">All modules</div>
+  <div class="filter-btn f-gap" onclick="filterRows('gap',this)">✗ Gaps only</div>
+  <div class="filter-btn f-build" onclick="filterRows('build',this)">↗ Needs edit</div>
+  <div class="filter-btn f-ready" onclick="filterRows('ready',this)">✓ Ready</div>
+  <div class="filter-btn f-review" onclick="filterRows('review',this)" style="border-color:#6B4FBB;">🔍 Needs TL Review</div>
+  <div class="filter-btn f-adapted" onclick="filterRows('adapted',this)" style="border-color:#D4620A;">📋 Adapted (unconfirmed)</div>
+</div>
+
+<div class="table-wrap">
+<table id="main-table">
+  <thead>
+    <tr>
+      <th>Module</th>
+      <th class="th-jordan">Jordan · Appt Setter</th>
+      <th class="th-luke">Luke · Alpha Hippo</th>
+      <th class="th-kaysie">Kaysie · Confirmations</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr class="tr-section"><td colspan="4">DAY 1 — COMPANY FOUNDATION</td></tr>
+
+    <tr data-tags="ready ready ready"><td>Welcome Day 1<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="ready ready ready"><td>What To Expect This Week<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap ready gap"><td>Systems & Workspace Setup<div class="module-sub">SCORM</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>Who is RESINC<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>Core Values<div class="module-sub">Interactive HTML + Audio</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>Company Knowledge Breaker<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="ready ready ready"><td>How Solar Works — Video<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>How Solar Works — Dashboard<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>Solar Knowledge Roleplay<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="ready ready ready"><td>Quick Check In<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>Your Lead Sources / Team Structure<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>Customer Journey<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="build build ready"><td>Solar Rebates & PAYS<div class="module-sub">PPT with Avatar</div></td>
+      <td><span class="chip chip-build">↗ Needs edit</span></td>
+      <td><span class="chip chip-build">↗ Needs edit</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="adapted ready ready"><td>Day 1 Knowledge Check<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-adapted">📋 Adapted — has AH refs</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="ready ready ready"><td>Company Meeting Video<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr class="tr-section"><td colspan="4">DAY 2 — ROLE & PERFORMANCE</td></tr>
+
+    <tr data-tags="ready ready ready"><td>Welcome Day 2<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap ready ready"><td>A Typical Day<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap ready ready"><td>Who's in Your Team<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="ready ready ready"><td>Role Overview<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap ready gap"><td>Role Knowledge Check<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="ready na ready"><td>What the Appointment Is For<div class="module-sub">PPT with Avatar</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="ready na ready"><td>Qualified Appointment<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="ready review ready"><td>KPIs & Targets<div class="module-sub">Interactive HTML + Calculator</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review gap"><td>Dashboard & Performance<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="gap gap gap"><td>30/60/90 Day Milestones<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="gap gap gap"><td>Performance Ladder Evaluation<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="gap gap gap"><td>Commission Structure<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="ready na na"><td>Roster & Hours<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td></tr>
+
+    <tr data-tags="ready review ready"><td>What Coaching Looks Like<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap gap gap"><td>How You'll Be Managed<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="ready review gap"><td>Mindset & Work Ethic<div class="module-sub">PPT with Avatar</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="ready review gap"><td>Common Mistakes<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="gap gap gap"><td>Quality Standards<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="gap gap gap"><td>What Happens If Below Minimum<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="gap gap gap"><td>Career Progression<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr class="tr-section"><td colspan="4">DAY 3 — SYSTEMS & SCRIPTS</td></tr>
+
+    <tr data-tags="ready ready ready"><td>Welcome Day 3<div class="module-sub">Video (Synthesia)</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review ready"><td>Dialer Set Up & Workflow<div class="module-sub">Zoho Learn</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review ready"><td>Dispositions<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review ready"><td>Zoho Home Page & Dashboard Set Up<div class="module-sub">Zoho Learn</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review ready"><td>Creating Tasks & Managing Callbacks<div class="module-sub">Zoho Learn</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review ready"><td>Moving Dialer Tasks to CRM<div class="module-sub">Zoho Learn</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review ready"><td>AI Booking Notes<div class="module-sub">Zoho Learn</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review ready"><td>CRM Scenarios<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="ready review ready"><td>Objection Handling<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review na"><td>Call Flow Overview<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-na">—</span></td></tr>
+
+    <tr data-tags="gap review na"><td>Scripts — New Lead Opener<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-na">—</span></td></tr>
+
+    <tr data-tags="gap review na"><td>Non-Negotiables<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-na">—</span></td></tr>
+
+    <tr data-tags="ready review ready"><td>Ice Breaker / Sales Training<div class="module-sub">Video / HTML</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td></tr>
+
+    <tr data-tags="gap review na"><td>Call Library<div class="module-sub">Video collection</div></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-na">—</span></td></tr>
+
+    <tr data-tags="ready review na"><td>Training Bingo<div class="module-sub">Interactive HTML</div></td>
+      <td><span class="chip chip-ready">✓ Ready</span></td>
+      <td><span class="chip chip-review">🔍 Needs Review</span></td>
+      <td><span class="chip chip-na">—</span></td></tr>
+
+
+    <tr class="tr-section"><td colspan="4">CONFIRMATIONS — AWAITING KAYSIE'S MATERIAL</td></tr>
+
+    <tr data-tags="na na gap"><td>Who Are the Confirmers? — Role & Team<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Navigating Zoho CRM — Leads vs Potentials<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Updating Leads — Notes, Attachments, Activities<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Creator Calendar — Working & Filtering<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>CX Inbox — Logging In & Actioning Items<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Dialer.IO — Set Up & Workflow<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Things You Need to Know — Tagging, Qualification, Late/Sick<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Scripts & Templates — Confirmation, Voicemail, Inbound<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Objection Handling Scripts — Top 10 + Specific Scripts<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>CRM Notes — Templates<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+
+    <tr data-tags="na na gap"><td>Podium SMS — Templates<div class="module-sub">Format TBD</div></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-na">—</span></td>
+      <td><span class="chip chip-gap">✗ Gap</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<script>
+function filterRows(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#main-table tbody tr:not(.tr-section)').forEach(row => {
+    if (type === 'all') { row.classList.remove('hidden'); return; }
+    const tags = (row.getAttribute('data-tags') || '').split(' ');
+    row.classList.toggle('hidden', !tags.some(t => t === type));
+  });
+}
+setTimeout(() => {
+  document.querySelectorAll('.sum-bar-fill').forEach(bar => {
+    const w = bar.style.width; bar.style.width = '0%';
+    setTimeout(() => bar.style.width = w, 100);
+  });
+}, 200);
+</script>
+</body>
+</html>
